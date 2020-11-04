@@ -1,7 +1,7 @@
 // import "./style.css";
 import React, { useState } from "react";
 import YouTube from "react-youtube";
-import "../nesting.css"
+import "../nesting.css";
 
 // https://stackoverflow.com/questions/46635316/youtube-embedded-video-auto-loop-without-refresh-screen
 
@@ -50,13 +50,53 @@ const YoutubeBackground = (props) => {
       origin: window.location.origin,
     },
   };
+  const below169 = window.matchMedia("(min-aspect-ratio: 16/9)");
+  const divStyle = {
+    position: "relative",
+    overflow: "hidden",
+    width: "100vw",
+    height: window.innerHeight,
+  };
+
+  const youStyle169min = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    width: "100vw",
+    pointerEvents: "none",
+    transform: "translate(-50%, -50%)",
+    webkitFilter: "brightness(37%)",
+    filter: "brightness(37%)",
+    height: "56.25vw",
+  };
+  const widthcss = 1.7778 * window.innerHeight;
+  const youStyle169max = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    height: window.innerHeight,
+    pointerEvents: "none",
+    transform: "translate(-50%, -50%)",
+    webkitFilter: "brightness(37%)",
+    filter: "brightness(37%)",
+    width: widthcss,
+  };
 
   //https://github.com/tjallingt/react-youtube
+
+  // passing the sytle in above.  check nesting.css to see which media should happen
+  // need to find out if you can pass sytle in the youtube.  may not be able to 
+  // the goal is to figure out how to 
+
+  // try classname?
   return (
     <div>
-      <div className="videoContainer">
+      {/* <div className="videoContainer"> */}
+      <div style={divStyle}>
+        {console.log(youStyle169max)}
         <YouTube
           id="ubid"
+          style={below169.matches ? youStyle169min : youStyle169max}
           videoId={videoId}
           onReady={onReady}
           opts={opts}
